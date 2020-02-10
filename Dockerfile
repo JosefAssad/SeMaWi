@@ -20,6 +20,7 @@ RUN apt-get update && \
 RUN mkdir /etc/semawi/
 COPY LocalSettings.php /var/www/wiki/LocalSettings.php
 COPY composer.local.json /etc/semawi/composer.local.json
+COPY semawi.ini /etc/php5/apache2/conf.d/99-semawi.ini
 COPY db.sql /etc/semawi/db.sql
 ADD 001-semawi.conf /etc/apache2/sites-available/001-semawi.conf
 

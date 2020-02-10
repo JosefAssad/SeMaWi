@@ -8,7 +8,6 @@ services:
     ports:
       - "80:80"
     volumes:
-      - /srv/semawi/php.ini:/etc/php5/apache2/php.ini
       - /srv/semawi/images/:/var/www/wiki/images/
       - /srv/semawi/nanlogo.png:/var/www/wiki/resources/assets/nanlogo.png
       - /srv/semawi/gc2smw.cfg:/opt/gc2/gc2smw.cfg
@@ -24,6 +23,7 @@ services:
       - SEMAWI_SITENAME=${SEMAWI_SITENAME}
       - SEMAWI_WGSECRETKEY=${SEMAWI_WGSECRETKEY}
       - SEMAWI_WGUPGRADEKEY=${SEMAWI_WGUPGRADEKEY}
+      - SEMAWI_MAXFILESIZE=${SEMAWI_MAXFILESIZE}
     depends_on:
       - wikidb
     hostname: semawi-mediawiki
