@@ -5,6 +5,8 @@
         "mediawiki/maps": "*",
 	"mediawiki/semantic-result-formats": "2.*",
 	"mediawiki/semantic-forms-select": "~2.0",
-	"mediawiki/graph-viz": "*"
+      "mediawiki/graph-viz": "2.1.0",
+      "pear/mail": "*",
+      "pear/net_smtp": "*"
     }
 }
