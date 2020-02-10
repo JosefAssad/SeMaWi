@@ -9,7 +9,7 @@ services:
       - "80:80"
     volumes:
       - /srv/semawi/images/:/var/www/wiki/images/
-      - /srv/semawi/nanlogo.png:/var/www/wiki/resources/assets/nanlogo.png
+      - ./${SEMAWI_LOGO}:/var/www/wiki/resources/assets/semawilogo.png
       - /srv/semawi/gc2smw.cfg:/opt/gc2/gc2smw.cfg
       - /srv/semawi/freetds.conf:/etc/freetds/freetds.conf
       - /srv/semawi/odbcinst.ini:/etc/odbcinst.ini
