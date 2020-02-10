@@ -1,6 +1,21 @@
+# General configuration
 SEMAWI_WGSERVER=http://localhost
 SEMAWI_SITENAME=SeMaWi
 SEMAWI_WGUPGRADEKEY=secret-upgrade-key
 SEMAWI_WGSECRETKEY=secret-secret-key
 SEMAWI_MAXFILESIZE=50M
 SEMAWI_LOGO=logo.png
+
+# GC2 fetcher configuration
+# You will need to set the following 4 configs or this sync script won't work.
+# A bot account on the target SMW instance
+SEMAWI_GC2_BOT_USER='Sitebot'
+SEMAWI_GC2_BOT_PASS='SitebotSitebot'
+# mwclient.Site takes two parameters. The first is the URL to your SMW instance.
+# It will look something like "mywiki.example.org"
+# the path parameter is the path to api.php
+SEMAWI_GC2_MW_SITE='172.17.0.2'
+SEMAWI_GC2_MW_PATH='/'
+# gc2_url is the URL to the GC2 v1 API. It will look usually something like:
+# http://CLIENTNAME.mapcentia.com/api/v1/metadata/CLIENTNAME/
+SEMAWI_GC2_URL='http://CLIENTNAME.mapcentia.com/api/v1/metadata/CLIENTNAME/'

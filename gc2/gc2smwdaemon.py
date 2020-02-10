@@ -1,17 +1,13 @@
 #!/usr/bin/env python
  # -*- coding: utf-8 -*-
 
-from IPython import embed
+import os
 import json
-import codecs
 import re
 from lxml import html
 import mwclient
 import urllib
-import requests
-from config import Config
 
-cfg = Config(file('/opt/gc2/gc2smw.cfg'))
 # Dette script skal installeres i et cronjob. Cronjobbet kan se således ud:
 # */1 * * * echo 'source /home/josef/.virtualenvs/gc2smw/bin/activate; python /home/josef/.virtualenvs/gc2smw/gc2cronjob/gc2smwdaemon.py' | /bin/bash
 # Bemærk, det betyder at værdien semawi.cfg nedenfor skal angived med
@@ -21,10 +17,11 @@ cfg = Config(file('/opt/gc2/gc2smw.cfg'))
 # Men IKKE noget a la
 # cfg = Config(file('../baz/dev.cfg'))
 
-username = cfg.username
-password = cfg.password
-site = mwclient.Site(cfg.site, path=cfg.path)
-gc2_url = cfg.gc2_url
+username = os.environ['SEMAWI_GC2_BOT_USER']
+password = os.environ['SEMAWI_GC2_BOT_PASS']
+site = mwclient.Site(os.environ['SEMAWI_GC2_MW_SITE'],
+                     os.environ['SEMAWI_GC2_MW_PATH'])
+gc2_url = os.environ['SEMAWI_GC2_URL']
 
 site.login(username, password)
 
@@ -120,7 +117,7 @@ def generate(tables):
             baselayer = 'false'
         else:
             baselayer = ''
-            
+
         if table['type'] != None:
             ttype = table['type']
         else:
@@ -195,4 +192,3 @@ if __name__ == '__main__':
     for table in tables:
         page = site.Pages[table['title']]
         page.save(table['contents'], summary = 'GC2 geodata batch import')
-

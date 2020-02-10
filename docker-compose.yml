@@ -10,7 +10,6 @@ services:
     volumes:
       - semawi-images:/var/www/wiki/images/
       - ./${SEMAWI_LOGO}:/var/www/wiki/resources/assets/semawilogo.png
-      - /srv/semawi/gc2smw.cfg:/opt/gc2/gc2smw.cfg
       - /srv/semawi/freetds.conf:/etc/freetds/freetds.conf
       - /srv/semawi/odbcinst.ini:/etc/odbcinst.ini
       - /srv/semawi/odbc.ini:/etc/odbc.ini
