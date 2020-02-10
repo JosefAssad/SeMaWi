@@ -11,7 +11,7 @@ COPY sources.list.d/jessie-deb-src.list \
 
 # Get stack up
 RUN apt-get update && \
-    apt-get -y install mysql-client apache2 curl php5 git \
+    apt-get -y install mysql-client apache2 curl php5 git unzip \
     php5-mysql php5-pgsql libapache2-mod-php5 virtualenv cron freetds-bin \
     tdsodbc php5-odbc unixodbc odbcinst graphviz graphviz-dev imagemagick && \
     apt-get -y build-dep python-lxml
