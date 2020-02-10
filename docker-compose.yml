@@ -8,7 +8,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - /srv/semawi/images/:/var/www/wiki/images/
+      - semawi-images:/var/www/wiki/images/
       - ./${SEMAWI_LOGO}:/var/www/wiki/resources/assets/semawilogo.png
       - /srv/semawi/gc2smw.cfg:/opt/gc2/gc2smw.cfg
       - /srv/semawi/freetds.conf:/etc/freetds/freetds.conf
@@ -45,3 +45,7 @@ services:
 networks:
   wiki_network:
     driver: bridge
+
+volumes:
+  semawi-images:
+    external: false
