@@ -4,17 +4,12 @@ LABEL version="2017-01"
 
 ENV DEBIAN_FRONTEND noninteractive
 
-# We'll need the deb-src repositories since we're apt-get build-dep'ing
-# python-lxml as part of getting gc2smwdaemon's virtualenv prepped
-COPY sources.list.d/jessie-deb-src.list \
-     /etc/apt/sources.list.d/jessie-deb-src.list
-
 # Get stack up
 RUN apt-get update && \
 	apt-get -y install mysql-client apache2 curl php5 git unzip \
 	php5-mysql php5-pgsql libapache2-mod-php5 virtualenv cron freetds-bin \
-	tdsodbc php5-odbc unixodbc odbcinst graphviz graphviz-dev imagemagick && \
-	apt-get -y build-dep python-lxml && \
+	tdsodbc php5-odbc unixodbc odbcinst graphviz graphviz-dev imagemagick \
+	libxml2-dev libxslt1-dev zlib1g-dev python2.7 python-dev && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 

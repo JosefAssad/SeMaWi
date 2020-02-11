@@ -6,7 +6,7 @@
 echo "Starting installation of GC2 sync script"
 
 # Create a virtualenv to work with
-/usr/bin/virtualenv /opt/gc2/
+/usr/bin/virtualenv --python=python2.7 /opt/gc2/
 
 # Activate it so we can install dependencies from requirements.txt
 . /opt/gc2/bin/activate
