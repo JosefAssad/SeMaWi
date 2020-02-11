@@ -1,6 +1,6 @@
 {
     "require": {
-        "mediawiki/semantic-media-wiki": "~2.1",
+        "mediawiki/semantic-media-wiki": "2.5",
         "mediawiki/chameleon-skin": "~1.0",
         "mediawiki/maps": "*",
 	"mediawiki/semantic-result-formats": "2.*",
