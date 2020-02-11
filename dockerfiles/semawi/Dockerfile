@@ -16,7 +16,7 @@ RUN apt-get update && \
 # Copy over the Mediawiki configs needed
 COPY LocalSettings.php /var/www/wiki/LocalSettings.php
 COPY composer.local.json /tmp/composer.local.json
-COPY semawi.ini /etc/php5/apache2/conf.d/99-semawi.ini
+COPY semawi.ini /etc/php/7.3/apache2/conf.d/99-semawi.ini
 COPY db.sql /tmp/db.sql
 ADD 001-semawi.conf /etc/apache2/sites-available/001-semawi.conf
 
