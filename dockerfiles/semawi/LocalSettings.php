@@ -43,8 +43,8 @@ $wgLogo = "$wgScriptPath/resources/assets/semawilogo.png";
 $wgEnableEmail = true;
 $wgEnableUserEmail = true; # UPO
 
-$wgEmergencyContact = "adam@adam42.dk";
-$wgPasswordSender = "adam@adam42.dk";
+$wgEmergencyContact = "ldg@balk.dk";
+$wgPasswordSender = "ldg@balk.dk";
 
 $wgEnotifUserTalk = true; # UPO
 $wgEnotifWatchlist = true; # UPO
