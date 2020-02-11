@@ -15,7 +15,7 @@ if [ ! -d "/var/www/wiki/extensions" ]; then
    chown -R www-data:www-data /var/www/wiki/images/
 
    # Install the config and database
-   mv /etc/semawi/composer.local.json /var/www/wiki/composer.local.json
+   mv /tmp/composer.local.json /var/www/wiki/composer.local.json
    chown www-data:www-data /var/www/wiki/composer.local.json
 
    # wait for mysql container to be ready
@@ -24,7 +24,7 @@ if [ ! -d "/var/www/wiki/extensions" ]; then
    done
 
    # Seed the database
-   mysql -h semawi-mysql -u wiki -pwiki wiki < /etc/semawi/db.sql
+   mysql -h semawi-mysql -u wiki -pwiki wiki < /tmp/db.sql
 
    # Install composer and run its dependencies
    cd /var/www/wiki/

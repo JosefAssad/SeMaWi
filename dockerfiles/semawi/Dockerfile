@@ -19,11 +19,10 @@ RUN apt-get update && \
 	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Copy over the Mediawiki configs needed
-RUN mkdir /etc/semawi/
 COPY LocalSettings.php /var/www/wiki/LocalSettings.php
-COPY composer.local.json /etc/semawi/composer.local.json
+COPY composer.local.json /tmp/composer.local.json
 COPY semawi.ini /etc/php5/apache2/conf.d/99-semawi.ini
-COPY db.sql /etc/semawi/db.sql
+COPY db.sql /tmp/db.sql
 ADD 001-semawi.conf /etc/apache2/sites-available/001-semawi.conf
 
 # Installing the GC2 daemon
