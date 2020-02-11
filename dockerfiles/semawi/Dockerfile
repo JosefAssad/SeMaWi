@@ -1,6 +1,5 @@
 FROM debian:jessie
 MAINTAINER Josef Assad <josef@josefassad.com>
-LABEL version="2017-01"
 
 ENV DEBIAN_FRONTEND noninteractive
 
