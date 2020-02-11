@@ -2,9 +2,9 @@ version: '3'
 services:
   semawi:
     build:
-      context: .
+      context: dockerfiles/semawi
       dockerfile: Dockerfile
-    image: semawi:2017_01
+    image: semawi:${SEMAWI_VERSION}
     ports:
       - "80:80"
     volumes:

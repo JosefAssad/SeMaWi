@@ -1,4 +1,5 @@
 # General configuration
+SEMAWI_VERSION=YYYY.N
 SEMAWI_WGSERVER=http://localhost
 SEMAWI_SITENAME=SeMaWi
 SEMAWI_WGUPGRADEKEY=secret-upgrade-key
