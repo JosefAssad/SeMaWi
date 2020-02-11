@@ -51,6 +51,4 @@ EXPOSE 80
 RUN a2dissite 000-default
 RUN a2ensite 001-semawi
 
-CMD ["/usr/sbin/apache2", "-D",  "FOREGROUND"]
-
 CMD ["/usr/local/bin/entrypoint.sh"]
