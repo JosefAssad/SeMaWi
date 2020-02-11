@@ -11,10 +11,12 @@ COPY sources.list.d/jessie-deb-src.list \
 
 # Get stack up
 RUN apt-get update && \
-    apt-get -y install mysql-client apache2 curl php5 git unzip \
-    php5-mysql php5-pgsql libapache2-mod-php5 virtualenv cron freetds-bin \
-    tdsodbc php5-odbc unixodbc odbcinst graphviz graphviz-dev imagemagick && \
-    apt-get -y build-dep python-lxml
+	apt-get -y install mysql-client apache2 curl php5 git unzip \
+	php5-mysql php5-pgsql libapache2-mod-php5 virtualenv cron freetds-bin \
+	tdsodbc php5-odbc unixodbc odbcinst graphviz graphviz-dev imagemagick && \
+	apt-get -y build-dep python-lxml && \
+	apt-get clean && \
+	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Copy over the Mediawiki configs needed
 RUN mkdir /etc/semawi/
@@ -29,9 +31,6 @@ COPY scripts/installgc2daemon.sh /opt/installgc2daemon.sh
 COPY scripts/syncgc2.sh /opt/syncgc2.sh
 COPY gc2 /opt/gc2
 RUN sh /opt/installgc2daemon.sh
-
-# Slim down the image
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Copy over the apache wrapper
 COPY scripts/entrypoint.sh /usr/local/bin/
