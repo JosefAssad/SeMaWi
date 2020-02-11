@@ -9,7 +9,7 @@ RUN apt-get update && \
 	php-mysql php-pgsql libapache2-mod-php virtualenv cron freetds-bin \
 	tdsodbc php-odbc unixodbc odbcinst graphviz graphviz-dev imagemagick \
 	libxml2-dev libxslt1-dev zlib1g-dev python2.7 python-dev gcc \
-	php-mbstring php-xml && \
+	php-mbstring php-xml php-curl && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 

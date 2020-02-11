@@ -29,6 +29,7 @@ if [ ! -d "/var/www/wiki/extensions" ]; then
    # Install composer and run its dependencies
    cd /var/www/wiki/
    curl -sS https://getcomposer.org/installer | php
+   /usr/bin/php /var/www/wiki/composer.phar global require hirak/prestissimo
    /usr/bin/php /var/www/wiki/composer.phar update
 
    # install GeSHi syntax highlighting
