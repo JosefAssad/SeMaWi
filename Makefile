@@ -15,3 +15,12 @@ distclean: clean
 
 ps:
 	docker-compose ps
+
+mw_runjobs:
+	docker exec semawi-mediawiki /usr/bin/php /var/www/wiki/maintenance/runJobs.php
+
+mw_update:
+	docker exec semawi-mediawiki /usr/bin/php /var/www/wiki/maintenance/update.php
+
+mw_enter:
+	docker exec -ti semawi-mediawiki /bin/bash
