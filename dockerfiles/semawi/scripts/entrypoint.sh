@@ -14,17 +14,32 @@ if [ ! -d "/var/www/wiki/extensions" ]; then
    chown -R root:root /var/www/wiki
    chown -R www-data:www-data /var/www/wiki/images/
 
-   # Install the config and database
-   mv /tmp/composer.local.json /var/www/wiki/composer.local.json
-   chown www-data:www-data /var/www/wiki/composer.local.json
-
    # wait for mysql container to be ready
+   echo "Waiting for db to come online..."
    until mysqladmin -h semawi-mysql -u wiki -pwiki ping &>/dev/null; do
        echo -n "."; sleep 0.2
    done
+   echo "DB is online!"
 
-   # Seed the database
-   mysql -h semawi-mysql -u wiki -pwiki wiki < /tmp/db.sql
+   # Run the install script
+   echo "Executing install script..."
+   /usr/bin/php \
+       /var/www/wiki/maintenance/install.php \
+       --dbserver semawi-mysql \
+       --dbname wiki \
+       --dbuser wiki \
+       --dbpass wiki \
+       --pass SeMaWiSeMaWi \
+       SeMaWi \
+       SeMaWi
+   echo "Install script complete!"
+
+   # copy the LocalSettings over
+   cp /tmp/LocalSettings.php /var/www/wiki/LocalSettings.php
+
+   # Install the dependencies
+   mv /tmp/composer.local.json /var/www/wiki/composer.local.json
+   chown www-data:www-data /var/www/wiki/composer.local.json
 
    # Install composer and run its dependencies
    cd /var/www/wiki/
@@ -101,13 +116,14 @@ if [ ! -d "/var/www/wiki/extensions" ]; then
    curl -L https://downloads.sourceforge.net/project/plantuml/plantuml.jar -o /usr/local/plantuml.jar
 
    # We'll need a Sysop/Beaureaucrat
+   echo "Creating the default user SeMaWi..."
    php /var/www/wiki/maintenance/createAndPromote.php --force --bureaucrat \
        --sysop SeMaWi SeMaWiSeMaWi
 
    # We'll need a bot for the GC2 sync
+   echo "Creating bot account for Geocloud2 sync..."
    php /var/www/wiki/maintenance/createAndPromote.php --force --bureaucrat \
        --sysop --bot Sitebot SitebotSitebot
-
 
 fi
 

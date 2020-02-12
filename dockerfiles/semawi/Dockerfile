@@ -9,15 +9,15 @@ RUN apt-get update && \
 	php-mysql php-pgsql libapache2-mod-php virtualenv cron freetds-bin \
 	tdsodbc php-odbc unixodbc odbcinst graphviz graphviz-dev imagemagick \
 	libxml2-dev libxslt1-dev zlib1g-dev python2.7 python-dev gcc \
-	php-mbstring php-xml php-curl && \
+	php-mbstring php-xml php-curl php-intl && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Copy over the Mediawiki configs needed
-COPY LocalSettings.php /var/www/wiki/LocalSettings.php
+COPY LocalSettings.php /tmp/LocalSettings.php
 COPY composer.local.json /tmp/composer.local.json
 COPY semawi.ini /etc/php/7.3/apache2/conf.d/99-semawi.ini
-COPY db.sql /tmp/db.sql
+COPY struktur.xml /tmp/struktur.xml
 ADD 001-semawi.conf /etc/apache2/sites-available/001-semawi.conf
 
 # Installing the GC2 daemon
@@ -28,6 +28,9 @@ RUN sh /opt/installgc2daemon.sh
 
 # Copy over the apache wrapper
 COPY scripts/entrypoint.sh /usr/local/bin/
+
+# and the data seeding helper script
+COPY scripts/loaddata.sh /usr/local/bin/loaddata.sh
 
 # Start up apache
 env APACHE_RUN_USER    www-data

@@ -24,3 +24,6 @@ mw_update:
 
 mw_enter:
 	docker exec -ti semawi-mediawiki /bin/bash
+
+loaddata:
+	docker exec semawi-mediawiki /bin/bash /usr/local/bin/loaddata.sh
