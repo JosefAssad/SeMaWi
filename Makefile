@@ -9,6 +9,7 @@ down:
 
 clean:
 	docker-compose down -v
+	yes | docker image prune
 
 distclean: clean
 	docker rmi semawi:${SEMAWI_VERSION}
