@@ -7,6 +7,10 @@ SEMAWI_WGSECRETKEY=secret-secret-key
 SEMAWI_MAXFILESIZE=50M
 SEMAWI_LOGO=logo.png
 
+# Dependency versions
+SEMAWI_MW_MINOR_VERSION=27
+SEMAWI_MW_PATCH_VERSION=3
+
 # GC2 fetcher configuration
 # You will need to set the following 4 configs or this sync script won't work.
 # A bot account on the target SMW instance
