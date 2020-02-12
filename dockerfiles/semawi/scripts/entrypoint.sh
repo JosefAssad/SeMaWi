@@ -11,8 +11,7 @@ if [ ! -d "/var/www/wiki/extensions" ]; then
    curl -o /tmp/mediawiki.tar.gz \
    https://releases.wikimedia.org/mediawiki/1.$SEMAWI_MW_MINOR_VERSION/mediawiki-1.$SEMAWI_MW_MINOR_VERSION.$SEMAWI_MW_PATCH_VERSION.tar.gz
    tar xvf /tmp/mediawiki.tar.gz -C /var/www/wiki/ --strip 1
-   chown -R root:root /var/www/wiki
-   chown -R www-data:www-data /var/www/wiki/images/
+   chown -R www-data:www-data /var/www/wiki
 
    # wait for mysql container to be ready
    echo "Waiting for db to come online..."
@@ -45,17 +44,11 @@ if [ ! -d "/var/www/wiki/extensions" ]; then
    cd /var/www/wiki/
    curl -sS https://getcomposer.org/installer | php
    /usr/bin/php /var/www/wiki/composer.phar global require hirak/prestissimo
-   /usr/bin/php /var/www/wiki/composer.phar update
+   /usr/bin/php /var/www/wiki/composer.phar update --no-dev
 
    # install GeSHi syntax highlighting
    cd /var/www/wiki/extensions/SyntaxHighlight_GeSHi/
    php /var/www/wiki/composer.phar update --no-dev
-   # Install DataTransfer
-
-   cd /var/www/wiki/extensions/
-   git clone https://gerrit.wikimedia.org/r/p/mediawiki/extensions/DataTransfer.git
-   cd /var/www/wiki/extensions/DataTransfer
-   git checkout -q REL1_$SEMAWI_MW_MINOR_VERSION
 
    # Install HeaderTabs
    cd /var/www/wiki/extensions/
@@ -113,7 +106,10 @@ if [ ! -d "/var/www/wiki/extensions" ]; then
    # Install PlantUML
    cd /var/www/wiki/extensions/
    git clone https://github.com/pjkersten/PlantUML.git
-   curl -L https://downloads.sourceforge.net/project/plantuml/plantuml.jar -o /usr/local/plantuml.jar
+   cp /usr/share/plantuml/plantuml.jar .
+
+   # We've added some stuff, so let's make sure our permissions are still ok
+   chown -R www-data:www-data /var/www/wiki
 
    # We'll need a Sysop/Beaureaucrat
    echo "Creating the default user SeMaWi..."

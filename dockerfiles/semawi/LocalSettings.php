@@ -126,10 +126,9 @@ $wgDefaultSkin = "vector";
 
 # Enabled skins.
 # The following skins were automatically enabled:
-require_once "$IP/skins/CologneBlue/CologneBlue.php";
-require_once "$IP/skins/Modern/Modern.php";
-require_once "$IP/skins/MonoBook/MonoBook.php";
-require_once "$IP/skins/Vector/Vector.php";
+wfLoadSkin( 'Vector' );
+wfLoadSkin( 'Timeless' );
+wfLoadSkin( 'MonoBook' );
 
 # Enabled Extensions as after version 1.25. Most extensions are enabled by including the base extension file here
 # but check specific extension documentation for more details
@@ -145,6 +144,7 @@ wfLoadExtension( 'Renameuser' );
 wfLoadExtension( 'SyntaxHighlight_GeSHi' );
 wfLoadExtension( 'WikiEditor' );
 wfLoadExtension( 'EditUser' );
+wfLoadExtension( 'SemanticResultFormats' );
 
 # End of automatically generated settings.
 # Add more configuration options below.
@@ -156,7 +156,7 @@ $wgGroupPermissions['sysop']['edituser'] = true;
 # Uncomment the following line when taking a database dump
 #$wgReadOnly = "Vi tager kopi af databasen. Vent veligst.";
 
-include_once "$IP/extensions/DataTransfer/DataTransfer.php";
+wfLoadExtension( 'DataTransfer' );
 require_once "$IP/extensions/MasonryMainPage/MasonryMainPage.php";
 wfLoadExtension( 'ImagesLoaded' );
 require_once "$IP/extensions/HeaderTabs/HeaderTabs.php";
@@ -234,3 +234,4 @@ wfLoadExtension( 'ImageMap' );
 require_once('extensions/PlantUML/PlantUML.php');
 
 $wgDefaultUserOptions['usebetatoolbar'] = 1;
+$wgShowExceptionDetails = true;
