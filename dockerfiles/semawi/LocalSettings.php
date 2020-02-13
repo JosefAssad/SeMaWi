@@ -170,8 +170,9 @@ $smwgQMaxSize = 100;
 $smwgQMaxDepth = 20;
 
 #error_reporting( -1 );
-#ini_set( 'display_errors', 1 );
-#$wgDebugLogFile = "/var/www/wiki/debug-semawi.log";
+# ini_set( 'display_errors', 1 );
+# $wgDebugLogFile = "/var/www/wiki/debug-semawi.log";
+# $wgShowExceptionDetails = true;
 
 $wgRawHtml = true;
 
@@ -234,4 +235,3 @@ wfLoadExtension( 'ImageMap' );
 require_once('extensions/PlantUML/PlantUML.php');
 
 $wgDefaultUserOptions['usebetatoolbar'] = 1;
-$wgShowExceptionDetails = true;
