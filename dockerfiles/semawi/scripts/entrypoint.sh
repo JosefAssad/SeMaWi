@@ -106,7 +106,7 @@ if [ ! -d "/var/www/wiki/extensions" ]; then
    # Install PlantUML
    cd /var/www/wiki/extensions/
    git clone https://github.com/pjkersten/PlantUML.git
-   cp /usr/share/plantuml/plantuml.jar .
+   cp /usr/share/plantuml/plantuml.jar ./PlantUML/plantuml.jar
 
    # We've added some stuff, so let's make sure our permissions are still ok
    chown -R www-data:www-data /var/www/wiki
