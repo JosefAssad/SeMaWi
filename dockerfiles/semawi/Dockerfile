@@ -47,4 +47,6 @@ EXPOSE 80
 RUN a2dissite 000-default
 RUN a2ensite 001-semawi
 
+WORKDIR /var/www/wiki/
+
 CMD ["/usr/local/bin/entrypoint.sh"]
