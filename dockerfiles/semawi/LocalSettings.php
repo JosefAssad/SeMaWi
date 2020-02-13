@@ -125,10 +125,10 @@ $wgGroupPermissions['*']['read'] = true;
 $wgDefaultSkin = "vector";
 
 # Enabled skins.
-# The following skins were automatically enabled:
 wfLoadSkin( 'Vector' );
 wfLoadSkin( 'Timeless' );
 wfLoadSkin( 'MonoBook' );
+wfLoadSkin( 'chameleon' );
 
 # Enabled Extensions as after version 1.25. Most extensions are enabled by including the base extension file here
 # but check specific extension documentation for more details
