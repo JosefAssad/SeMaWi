@@ -6,9 +6,9 @@ ENV DEBIAN_FRONTEND noninteractive
 # Get stack up
 RUN apt-get update && \
 	apt-get -y install mariadb-client apache2 curl php git unzip \
-	php-mysql php-pgsql libapache2-mod-php virtualenv cron freetds-bin \
+	php-mysql php-pgsql libapache2-mod-php freetds-bin \
 	tdsodbc php-odbc unixodbc odbcinst graphviz graphviz-dev imagemagick \
-	libxml2-dev libxslt1-dev zlib1g-dev python2.7 python-dev gcc \
+	libxml2-dev libxslt1-dev zlib1g-dev \
 	php-mbstring php-xml php-curl php-intl plantuml && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -19,12 +19,6 @@ COPY composer.local.json /tmp/composer.local.json
 COPY semawi.ini /etc/php/7.3/apache2/conf.d/99-semawi.ini
 COPY struktur.xml /tmp/struktur.xml
 ADD 001-semawi.conf /etc/apache2/sites-available/001-semawi.conf
-
-# Installing the GC2 daemon
-COPY scripts/installgc2daemon.sh /opt/installgc2daemon.sh
-COPY scripts/syncgc2.sh /opt/syncgc2.sh
-COPY gc2 /opt/gc2
-RUN sh /opt/installgc2daemon.sh
 
 # Copy over the apache wrapper
 COPY scripts/entrypoint.sh /usr/local/bin/

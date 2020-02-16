@@ -1,5 +1,25 @@
 version: '3'
 services:
+  gc2sync:
+    build:
+      context: dockerfiles/geocloud-sync
+      dockerfile: Dockerfile
+    image: semawi/gc2sync:${SEMAWI_VERSION}
+    networks:
+      - wiki_network
+    container_name: semawi-gc2sync
+    restart: on-failure
+    environment:
+      - SEMAWI_GC2_BOT_USER=${SEMAWI_GC2_BOT_USER}
+      - SEMAWI_GC2_BOT_PASS=${SEMAWI_GC2_BOT_PASS}
+      - SEMAWI_GC2_MW_SITE=${SEMAWI_GC2_MW_SITE}
+      - SEMAWI_GC2_MW_PATH=${SEMAWI_GC2_MW_PATH}
+      - SEMAWI_GC2_MW_SCHEME=${SEMAWI_GC2_MW_SCHEME}
+      - SEMAWI_GC2_URL=${SEMAWI_GC2_URL}
+    depends_on:
+      - semawi
+    hostname: semawi-gc2sync
+    restart: unless-stopped
   semawi:
     build:
       context: dockerfiles/semawi
@@ -28,6 +48,7 @@ services:
     depends_on:
       - wikidb
     hostname: semawi-mediawiki
+    restart: unless-stopped
   wikidb:
     image: mysql:5.7
     ports:
@@ -41,7 +62,7 @@ services:
       - wiki_network
     container_name: semawi-mysql
     hostname: semawi-mysql
-    restart: on-failure
+    restart: unless-stopped
 
 networks:
   wiki_network:
