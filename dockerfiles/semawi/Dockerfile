@@ -43,4 +43,7 @@ RUN a2ensite 001-semawi
 
 WORKDIR /var/www/wiki/
 
+HEALTHCHECK --interval=1m --timeout=10s --start-period=2m --retries=3 \
+	CMD curl --fail http://127.0.0.1/ || exit 1
+
 CMD ["/usr/local/bin/entrypoint.sh"]

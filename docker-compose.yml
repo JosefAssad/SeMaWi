@@ -50,7 +50,10 @@ services:
     hostname: semawi-mediawiki
     restart: unless-stopped
   wikidb:
-    image: mysql:5.7
+    image: semawi/mysql:${SEMAWI_VERSION}
+    build:
+      context: dockerfiles/mysql
+      dockerfile: Dockerfile
     ports:
       - "3306:3306"
     environment:

@@ -124,6 +124,11 @@ def generate(tables):
     return geodata_tables
 
 
+@app.route('/healthz')
+def healthz():
+    return "ok"
+
+
 @app.route('/')
 def sync():
     # step 0: login
