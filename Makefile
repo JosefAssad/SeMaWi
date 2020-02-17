@@ -15,7 +15,10 @@ clean:
 	yes | docker image prune
 
 distclean: clean
-	docker rmi semawi:${SEMAWI_VERSION}
+	docker rmi semawi/mediawiki:${SEMAWI_VERSION}
+	docker rmi semawi/cron:${SEMAWI_VERSION}
+	docker rmi semawi/gc2sync:${SEMAWI_VERSION}
+	docker rmi semawi/mysql:${SEMAWI_VERSION}
 
 ps:
 	docker-compose ps
