@@ -1,5 +1,17 @@
 version: '3'
 services:
+  cron:
+    image: semawi/cron:${SEMAWI_VERSION}
+    build:
+      context: dockerfiles/cron
+      dockerfile: Dockerfile
+    container_name: semawi-cron
+    restart: unless-stopped
+    depends_on:
+      - semawi
+      - gc2sync
+    networks:
+      - wiki_network
   gc2sync:
     build:
       context: dockerfiles/geocloud-sync

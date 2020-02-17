@@ -1,5 +1,6 @@
-from flask import Flask
+from flask import Flask, abort
 import mwclient
+import logging
 import os
 import json
 import re
@@ -138,17 +139,21 @@ def sync():
     site.login(username, password)
 
     # Step 1: Load gc2 json into SMW pages
-    response = urllib.request.urlopen(gc2_url).read()
-    gc2data = json.loads(response.read())
-    gc2tables = gc2data['data']
-    tables = generate(gc2tables)
-    # Step 2: Delete SMW pages in the Geodata category
-    delete_cat(site, 'Geodata')
-    # Step 3: Create new pages for all the SMW pages generated in step 1
-    for table in tables:
-        page = site.Pages[table['title']]
-        page.save(table['contents'], summary='GC2 geodata batch import')
-    return "ok"
+    try:
+        response = urllib.request.urlopen(gc2_url).read()
+        gc2data = json.loads(response.read())
+        gc2tables = gc2data['data']
+        tables = generate(gc2tables)
+        # Step 2: Delete SMW pages in the Geodata category
+        delete_cat(site, 'Geodata')
+        # Step 3: Create new pages for all the SMW pages generated in step 1
+        for table in tables:
+            page = site.Pages[table['title']]
+            page.save(table['contents'], summary='GC2 geodata batch import')
+        return "ok"
+    except Exception as e:
+        logging.error(f"Could not load GC2 url: {e}")
+        abort(500)
 
 
 if __name__ == '__main__':

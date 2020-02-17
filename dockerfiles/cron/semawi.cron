@@ -1,0 +1,2 @@
+# -*- mode: crontab;-*-
+0 3 * * * curl http://semawi-gc2sync:5000 >& /dev/null
