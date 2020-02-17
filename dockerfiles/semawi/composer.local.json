@@ -1,10 +1,10 @@
 {
   "require": {
-    "mediawiki/semantic-media-wiki": "3.0.2",
+    "mediawiki/semantic-media-wiki": "${SMW_VERSION}",
     "mediawiki/chameleon-skin": "2.1.0",
     "mediawiki/maps": "*",
-    "mediawiki/semantic-result-formats": "3.1.0",
-    "mediawiki/semantic-forms-select": "3.0.0",
+    "mediawiki/semantic-result-formats": "${SRF_VERSION}",
+    "mediawiki/semantic-forms-select": "${SFS_VERSION}",
     "mediawiki/graph-viz": "2.1.0",
     "mediawiki/data-transfer": "1.1",
     "pear/mail": "*",

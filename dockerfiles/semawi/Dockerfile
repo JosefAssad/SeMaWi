@@ -1,8 +1,18 @@
+FROM debian:10.2 AS composer-maker
+ARG SMW_VERSION
+ARG SRF_VERSION
+ARG SFS_VERSION
+RUN apt-get update && apt-get install -f -y gettext-base
+COPY composer.local.json /tmp/composer.pre.json
+RUN envsubst "\$SMW_VERSION,\$SRF_VERSION,\$SFS_VERSION" \
+	< /tmp/composer.pre.json \
+	> /tmp/composer.local.json
+
 FROM debian:10.2
 MAINTAINER Josef Assad <josef@josefassad.com>
 
+# main image builder
 ENV DEBIAN_FRONTEND noninteractive
-
 # Get stack up
 RUN apt-get update && \
 	apt-get -y install mariadb-client apache2 curl php git unzip \
@@ -14,8 +24,8 @@ RUN apt-get update && \
 	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Copy over the Mediawiki configs needed
+COPY --from=composer-maker /tmp/composer.local.json /tmp/composer.local.json
 COPY LocalSettings.php /tmp/LocalSettings.php
-COPY composer.local.json /tmp/composer.local.json
 COPY semawi.ini /etc/php/7.3/apache2/conf.d/99-semawi.ini
 COPY struktur.xml /tmp/struktur.xml
 ADD 001-semawi.conf /etc/apache2/sites-available/001-semawi.conf

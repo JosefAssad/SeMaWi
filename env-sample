@@ -10,6 +10,9 @@ SEMAWI_LOGO=logo.png
 # Dependency versions
 SEMAWI_MW_MINOR_VERSION=31
 SEMAWI_MW_PATCH_VERSION=6
+SEMAWI_SMW_VERSION=3.0.2
+SEMAWI_SRF_VERSION=3.1.0
+SEMAWI_SFS_VERSION=3.0.0
 
 # GC2 fetcher configuration
 # You will need to set the following 4 configs or this sync script won't work.
