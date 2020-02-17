@@ -1,4 +1,5 @@
-FROM debian:10.2 AS composer-maker
+ARG DEBIAN_VERSION=10.2
+FROM debian:$DEBIAN_VERSION AS composer-maker
 ARG SMW_VERSION
 ARG SRF_VERSION
 ARG SFS_VERSION
@@ -8,7 +9,7 @@ RUN envsubst "\$SMW_VERSION,\$SRF_VERSION,\$SFS_VERSION" \
 	< /tmp/composer.pre.json \
 	> /tmp/composer.local.json
 
-FROM debian:10.2
+FROM debian:$DEBIAN_VERSION
 MAINTAINER Josef Assad <josef@josefassad.com>
 
 # main image builder

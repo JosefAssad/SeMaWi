@@ -1,4 +1,5 @@
-FROM python:3.7
+ARG PYTHON_VERSION=3.7
+FROM python:$PYTHON_VERSION
 
 RUN pip install gunicorn
 RUN useradd -ms /bin/bash gc2sync

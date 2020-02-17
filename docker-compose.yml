@@ -5,6 +5,8 @@ services:
     build:
       context: dockerfiles/cron
       dockerfile: Dockerfile
+      args:
+        - ALPINE_VERSION=${SEMAWI_ALPINE_VERSION}
     container_name: semawi-cron
     restart: unless-stopped
     depends_on:
@@ -16,6 +18,8 @@ services:
     build:
       context: dockerfiles/geocloud-sync
       dockerfile: Dockerfile
+      args:
+        - PYTHON_VERSION=${SEMAWI_PYTHON_VERSION}
     image: semawi/gc2sync:${SEMAWI_VERSION}
     networks:
       - wiki_network
@@ -40,6 +44,7 @@ services:
         - SMW_VERSION=${SEMAWI_SMW_VERSION}
         - SRF_VERSION=${SEMAWI_SRF_VERSION}
         - SFS_VERSION=${SEMAWI_SFS_VERSION}
+        - DEBIAN_VERSION=${SEMAWI_DEBIAN_VERSION}
     image: semawi/mediawiki:${SEMAWI_VERSION}
     ports:
       - "80:80"
@@ -70,6 +75,8 @@ services:
     build:
       context: dockerfiles/mysql
       dockerfile: Dockerfile
+      args:
+        - MYSQL_VERSION=${SEMAWI_MYSQL_VERSION}
     ports:
       - "3306:3306"
     environment:

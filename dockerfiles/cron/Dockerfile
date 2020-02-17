@@ -1,6 +1,6 @@
 # -*- mode: Dockerfile;-*-
-
-FROM alpine:3.11
+ARG ALPINE_VERSION=3.11
+FROM alpine:$ALPINE_VERSION
 # copy crontabs for root user
 COPY semawi.cron /etc/crontabs/root
 RUN apk add curl
