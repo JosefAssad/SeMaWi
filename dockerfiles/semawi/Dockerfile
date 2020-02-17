@@ -8,8 +8,8 @@ RUN apt-get update && \
 	apt-get -y install mariadb-client apache2 curl php git unzip \
 	php-mysql php-pgsql libapache2-mod-php freetds-bin \
 	tdsodbc php-odbc unixodbc odbcinst graphviz graphviz-dev imagemagick \
-	libxml2-dev libxslt1-dev zlib1g-dev supervisor \
-	php-mbstring php-xml php-curl php-intl plantuml && \
+	libxml2-dev libxslt1-dev zlib1g-dev supervisor python3 \
+	python3-distutils php-mbstring php-xml php-curl php-intl plantuml && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -29,6 +29,13 @@ COPY supervisord.conf /etc/supervisor/conf.d/semawi.conf
 # and the data seeding helper script
 COPY scripts/loaddata.sh /usr/local/bin/loaddata.sh
 
+# install the semawi-runner
+RUN curl https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py
+RUN python3 /tmp/get-pip.py
+COPY SemawiRunner /tmp/SemawiRunner
+RUN pip install /tmp/SemawiRunner
+RUN pip install gunicorn
+
 # Start up apache
 env APACHE_RUN_USER    www-data
 env APACHE_RUN_GROUP   www-data
@@ -38,7 +45,7 @@ env APACHE_LOCK_DIR    /var/lock/apache2
 env APACHE_LOG_DIR     /var/log/apache2
 env LANG               C
 
-EXPOSE 80
+EXPOSE 80 5000
 
 # disable 000-default (localhost) & enable 001-semawi (semawi)
 RUN a2dissite 000-default
@@ -49,4 +56,4 @@ WORKDIR /var/www/wiki/
 HEALTHCHECK --interval=1m --timeout=10s --start-period=2m --retries=3 \
 	CMD curl --fail http://127.0.0.1/ || exit 1
 
-CMD ["/usr/bin/supervisord"]
+CMD ["/usr/bin/supervisord", "-n"]
