@@ -8,7 +8,7 @@ RUN apt-get update && \
 	apt-get -y install mariadb-client apache2 curl php git unzip \
 	php-mysql php-pgsql libapache2-mod-php freetds-bin \
 	tdsodbc php-odbc unixodbc odbcinst graphviz graphviz-dev imagemagick \
-	libxml2-dev libxslt1-dev zlib1g-dev \
+	libxml2-dev libxslt1-dev zlib1g-dev supervisor \
 	php-mbstring php-xml php-curl php-intl plantuml && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -22,6 +22,9 @@ ADD 001-semawi.conf /etc/apache2/sites-available/001-semawi.conf
 
 # Copy over the apache wrapper
 COPY scripts/entrypoint.sh /usr/local/bin/
+
+# Deploy supervisord configuration
+COPY supervisord.conf /etc/supervisor/conf.d/semawi.conf
 
 # and the data seeding helper script
 COPY scripts/loaddata.sh /usr/local/bin/loaddata.sh
@@ -46,4 +49,4 @@ WORKDIR /var/www/wiki/
 HEALTHCHECK --interval=1m --timeout=10s --start-period=2m --retries=3 \
 	CMD curl --fail http://127.0.0.1/ || exit 1
 
-CMD ["/usr/local/bin/entrypoint.sh"]
+CMD ["/usr/bin/supervisord"]
