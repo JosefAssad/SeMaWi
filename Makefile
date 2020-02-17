@@ -31,3 +31,6 @@ mw_enter:
 
 loaddata:
 	docker exec semawi-mediawiki /bin/bash /usr/local/bin/loaddata.sh
+
+logs:
+	docker-compose logs -f
