@@ -66,6 +66,7 @@ services:
       - SEMAWI_MAXFILESIZE=${SEMAWI_MAXFILESIZE}
       - SEMAWI_MW_MINOR_VERSION=${SEMAWI_MW_MINOR_VERSION}
       - SEMAWI_MW_PATCH_VERSION=${SEMAWI_MW_PATCH_VERSION}
+      - SEMAWI_PHP_MEM_LIMIT=${SEMAWI_PHP_MEM_LIMIT}
     depends_on:
       - wikidb
     hostname: semawi-mediawiki
