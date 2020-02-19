@@ -27,7 +27,7 @@ mw_runjobs:
 	docker exec semawi-mediawiki /usr/bin/php /var/www/wiki/maintenance/runJobs.php
 
 mw_update:
-	docker exec semawi-mediawiki /usr/bin/php /var/www/wiki/maintenance/update.php
+	docker exec semawi-mediawiki /usr/bin/php /var/www/wiki/maintenance/update.php --quick
 
 mw_enter:
 	docker exec -ti semawi-mediawiki /bin/bash
@@ -37,3 +37,6 @@ loaddata:
 
 logs:
 	docker-compose logs -f
+
+reload:
+	docker-compose up -d --force-recreate semawi

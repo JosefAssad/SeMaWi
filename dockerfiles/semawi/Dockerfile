@@ -10,6 +10,8 @@ RUN envsubst "\$SMW_VERSION,\$SRF_VERSION,\$SFS_VERSION" \
 	> /tmp/composer.local.json
 
 FROM debian:$DEBIAN_VERSION
+ARG SEMAWI_MW_MINOR_VERSION
+ARG SEMAWI_MW_PATCH_VERSION
 MAINTAINER Josef Assad <josef@josefassad.com>
 
 # main image builder
@@ -24,15 +26,13 @@ RUN apt-get update && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Copy over the Mediawiki configs needed
-COPY --from=composer-maker /tmp/composer.local.json /tmp/composer.local.json
-COPY LocalSettings.php /tmp/LocalSettings.php
+# Copy over the configs needed
 COPY semawi.ini /etc/php/7.3/apache2/conf.d/99-semawi.ini
 COPY struktur.xml /tmp/struktur.xml
 ADD 001-semawi.conf /etc/apache2/sites-available/001-semawi.conf
 
 # Copy over the apache wrapper
-COPY scripts/entrypoint.sh /usr/local/bin/
+COPY scripts/runserver.sh /usr/local/bin/
 
 # Deploy supervisord configuration
 COPY supervisord.conf /etc/supervisor/conf.d/semawi.conf
@@ -62,7 +62,60 @@ EXPOSE 80 5000
 RUN a2dissite 000-default
 RUN a2ensite 001-semawi
 
+# Install php composer
+WORKDIR /usr/local/bin/
+RUN curl -sS https://getcomposer.org/installer | php
+RUN mv composer.phar composer
+
 WORKDIR /var/www/wiki/
+
+# Install Mediawiki and extensions
+RUN curl -o /tmp/mediawiki.tar.gz \
+	https://releases.wikimedia.org/mediawiki/1.$SEMAWI_MW_MINOR_VERSION/mediawiki-1.$SEMAWI_MW_MINOR_VERSION.$SEMAWI_MW_PATCH_VERSION.tar.gz && \
+	tar xvf /tmp/mediawiki.tar.gz -C /var/www/wiki/ --strip 1
+COPY LocalSettings.php /tmp/LocalSettings.php
+COPY --from=composer-maker /tmp/composer.local.json /var/www/wiki/composer.local.json
+RUN composer global require hirak/prestissimo
+RUN composer update --no-dev
+WORKDIR /var/www/wiki/extensions/SyntaxHighlight_GeSHi/
+RUN composer update --no-dev
+
+# Install extensions
+WORKDIR /var/www/wiki/extensions/
+# headertabs
+RUN git clone https://gerrit.wikimedia.org/r/p/mediawiki/extensions/HeaderTabs.git && \
+	git -C HeaderTabs checkout -q REL1_$SEMAWI_MW_MINOR_VERSION
+# MasonryMainPage
+RUN git clone https://github.com/enterprisemediawiki/MasonryMainPage.git && \
+	git -C MasonryMainPage checkout -q 9837244ccf70f3823e8f5366045e1637e65bd993
+# Install ImagesLoaded
+RUN git clone https://github.com/enterprisemediawiki/ImagesLoaded.git
+# Install EditUser
+RUN git clone https://github.com/wikimedia/mediawiki-extensions-EditUser.git && \
+	mv mediawiki-extensions-EditUser EditUser && \
+	git -C EditUser checkout -q REL1_$SEMAWI_MW_MINOR_VERSION
+# Install ExternalData
+RUN git clone https://gerrit.wikimedia.org/r/p/mediawiki/extensions/ExternalData && \
+	git -C ExternalData checkout -q REL1_$SEMAWI_MW_MINOR_VERSION
+# Install RevisionSlider
+RUN git clone https://github.com/wikimedia/mediawiki-extensions-RevisionSlider.git && \
+	mv mediawiki-extensions-RevisionSlider RevisionSlider && \
+   git -C RevisionSlider checkout -q REL1_$SEMAWI_MW_MINOR_VERSION
+# Install OdbcDatabase
+RUN git clone https://gerrit.wikimedia.org/r/p/mediawiki/extensions/OdbcDatabase.git && \
+	git -C OdbcDatabase checkout -q REL1_$SEMAWI_MW_MINOR_VERSION && \
+	sed -i'' "s/public static function getSoftwareLink/public function getSoftwareLink/" \
+	OdbcDatabase/OdbcDatabase.body.php
+# Install Maintenance
+RUN git clone https://github.com/wikimedia/mediawiki-extensions-Maintenance.git && \
+	mv mediawiki-extensions-Maintenance Maintenance && \
+	git -C Maintenance checkout -q REL1_$SEMAWI_MW_MINOR_VERSION
+# Install PlantUML
+RUN git clone https://github.com/pjkersten/PlantUML.git && \
+	cp /usr/share/plantuml/plantuml.jar ./PlantUML/plantuml.jar
+
+# fix ownership
+RUN chown -R www-data:www-data /var/www/wiki/
 
 HEALTHCHECK --interval=1m --timeout=10s --start-period=2m --retries=3 \
 	CMD curl --fail http://127.0.0.1/ || exit 1
