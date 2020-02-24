@@ -61,6 +61,7 @@ EXPOSE 80 5000
 # disable 000-default (localhost) & enable 001-semawi (semawi)
 RUN a2dissite 000-default
 RUN a2ensite 001-semawi
+RUN a2enmod headers
 
 # Install php composer
 WORKDIR /usr/local/bin/
