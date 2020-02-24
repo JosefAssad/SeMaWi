@@ -78,8 +78,6 @@ services:
       dockerfile: Dockerfile
       args:
         - MYSQL_VERSION=${SEMAWI_MYSQL_VERSION}
-    ports:
-      - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=wiki
