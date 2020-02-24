@@ -18,6 +18,6 @@ RUN pip install --user ./gc2sync
 EXPOSE 5000
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=1m --retries=3 \
-	CMD curl 127.0.0.1:5000/healthz
+	CMD curl  -A "semawi-healthcheck" 127.0.0.1:5000/healthz
 
 ENTRYPOINT ["./run.sh"]

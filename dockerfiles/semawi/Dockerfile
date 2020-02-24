@@ -118,6 +118,6 @@ RUN git clone https://github.com/pjkersten/PlantUML.git && \
 RUN chown -R www-data:www-data /var/www/wiki/
 
 HEALTHCHECK --interval=1m --timeout=10s --start-period=2m --retries=3 \
-	CMD curl --fail http://127.0.0.1/ || exit 1
+	CMD curl -A "semawi-healthcheck" --fail http://127.0.0.1/ || exit 1
 
 CMD ["/usr/bin/supervisord", "-n"]
