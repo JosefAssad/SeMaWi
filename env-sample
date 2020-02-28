@@ -7,7 +7,7 @@ SEMAWI_WGSECRETKEY=secret-secret-key
 SEMAWI_MAXFILESIZE=50M
 SEMAWI_LOGO=logo.png
 SEMAWI_PHP_MEM_LIMIT=512M
-SEMAWI_PORT=12345  # this is the convention
+SEMAWI_PORT=12345
 # GC2 fetcher configuration
 # You will need to set the following 4 configs or this sync script won't work.
 # A bot account on the target SMW instance
