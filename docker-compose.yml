@@ -1,4 +1,4 @@
-version: '3'
+version: '3.2'
 services:
   cron:
     image: semawi/cron:${SEMAWI_VERSION}
@@ -49,7 +49,10 @@ services:
         - DEBIAN_VERSION=${SEMAWI_DEBIAN_VERSION}
     image: semawi/mediawiki:${SEMAWI_VERSION}
     ports:
-      - "80:80"
+      - target: 80
+        published: ${SEMAWI_PORT}
+        protocol: tcp
+        mode: host
     volumes:
       - semawi-images:/var/www/wiki/images/
       - ./${SEMAWI_LOGO}:/var/www/wiki/resources/assets/semawilogo.png
