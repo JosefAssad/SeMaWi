@@ -12,7 +12,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
-## [2020.1] - 2020-02-??
+## [2020.1] - 2020-02-29
 
 This is an update, refresh, and refactoring release.
 
@@ -34,6 +34,19 @@ This is an update, refresh, and refactoring release.
   notable exception is MySQL, since the latest versions appear to be a lot less
   tested and perform extremely slowly with Mediawiki.
 * GeoCloud synchronisation is now split out in its own microservice.
+* SeMaWi now uses its own MySQL container instead of one provided by the docker
+  host.
+* Debian docker base images are also updated to the latest stable, 10.2.
+* php dependency management has been moved over entirely to composer; no more
+  pear errors.
 
 ### Fixed
 * SeMaWi, in general, has been fixed...
+
+### Notes
+* We remain on MySQL 5.7. This is far behind what is current, but the current
+  version in my testing performed abysmally and seemed to cause data issues.
+  Worth investigating.
+* We hope to upgrade to 1.34 but have tested and encountered some problems
+  porting data. so for now, MediaWiki 1.31 will do fine as it is the current
+  LTS release.
