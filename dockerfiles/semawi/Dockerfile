@@ -19,8 +19,8 @@ ENV DEBIAN_FRONTEND noninteractive
 # Get stack up
 RUN apt-get update && \
 	apt-get -y install mariadb-client apache2 curl php git unzip \
-	php-mysql php-pgsql libapache2-mod-php freetds-bin \
-	tdsodbc php-odbc unixodbc odbcinst graphviz graphviz-dev imagemagick \
+	php-mysql php-pgsql libapache2-mod-php \
+	graphviz graphviz-dev imagemagick \
 	libxml2-dev libxslt1-dev zlib1g-dev supervisor python3 \
 	python3-distutils php-mbstring php-xml php-curl php-intl plantuml && \
 	apt-get clean && \

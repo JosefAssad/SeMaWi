@@ -17,7 +17,6 @@ clean:
 distclean: clean
 	docker rmi semawi/mediawiki:${SEMAWI_VERSION}
 	docker rmi semawi/cron:${SEMAWI_VERSION}
-	docker rmi semawi/gc2sync:${SEMAWI_VERSION}
 	docker rmi semawi/mysql:${SEMAWI_VERSION}
 
 ps:

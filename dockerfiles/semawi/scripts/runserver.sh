@@ -29,11 +29,6 @@ else
     echo "Creating the default user SeMaWi..."
     php /var/www/wiki/maintenance/createAndPromote.php --force --bureaucrat \
 	--sysop SeMaWi SeMaWiSeMaWi
-
-    # We'll need a bot for the GC2 sync
-    echo "Creating bot account for Geocloud2 sync..."
-    php /var/www/wiki/maintenance/createAndPromote.php --force --bureaucrat \
-	--sysop --bot Sitebot SitebotSitebot
 fi
 
 # copy over our desired LocalSettings file

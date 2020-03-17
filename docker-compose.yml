@@ -11,31 +11,8 @@ services:
     restart: unless-stopped
     depends_on:
       - semawi
-      - gc2sync
     networks:
       - wiki_network
-  gc2sync:
-    build:
-      context: dockerfiles/geocloud-sync
-      dockerfile: Dockerfile
-      args:
-        - PYTHON_VERSION=${SEMAWI_PYTHON_VERSION}
-    image: semawi/gc2sync:${SEMAWI_VERSION}
-    networks:
-      - wiki_network
-    container_name: semawi-gc2sync
-    restart: on-failure
-    environment:
-      - SEMAWI_GC2_BOT_USER=${SEMAWI_GC2_BOT_USER}
-      - SEMAWI_GC2_BOT_PASS=${SEMAWI_GC2_BOT_PASS}
-      - SEMAWI_GC2_MW_SITE=${SEMAWI_GC2_MW_SITE}
-      - SEMAWI_GC2_MW_PATH=${SEMAWI_GC2_MW_PATH}
-      - SEMAWI_GC2_MW_SCHEME=${SEMAWI_GC2_MW_SCHEME}
-      - SEMAWI_GC2_URL=${SEMAWI_GC2_URL}
-    depends_on:
-      - semawi
-    hostname: semawi-gc2sync
-    restart: unless-stopped
   semawi:
     build:
       context: dockerfiles/semawi

@@ -12,7 +12,22 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
-## [2020.1] - 2020-02-29
+## [2020.1RC2] - 2020-03-20
+
+### Added
+
+### Changed
+
+### Removed
+* GeoCloud 2 synchronisation microservice has been removed as agreed with BALK
+  to facilitate the migration to a Linode.
+* ODBC integration has been deprecated and removed as SeMaWi will focus in the
+  coming period on cross-municipal models rather than deeper portfolio
+  integration.
+
+### Fixed
+
+## [2020.1RC1] - 2020-02-29
 
 This is an update, refresh, and refactoring release.
 

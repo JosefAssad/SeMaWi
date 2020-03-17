@@ -55,7 +55,8 @@ In more detail:
    semawi-mediawiki:/var/www/wiki/images/ .`.
 3. Back up configuration settings from the `/srv/semawi` folder. Specifically
    you will want the ODBC configuration, GC2 configuration, `LocalSettings.php`,
-   etc.
+   etc. This location for mutable data along with the GC2 and ODBC is deprecated
+   from release 2020.1 but you will want a record of those files.
 4. Fetch the latest SeMaWi sources and cd into the folder.
 5. You need a python venv with `docker-compose`. Execute `python3 -m venv .venv`
    then `source .venv/bin/activate` then `pip install --upggrade pip` then `pip
