@@ -1,3 +1,4 @@
+*.pem
 .*.swp
 .venv
 .env

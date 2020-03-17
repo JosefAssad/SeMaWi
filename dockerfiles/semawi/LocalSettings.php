@@ -29,7 +29,7 @@ $wgScriptPath = "";
 $wgScriptExtension = ".php";
 
 ## The protocol and server name to use in fully-qualified URLs
-$wgServer = getenv("SEMAWI_WGSERVER");
+$wgServer = "https://".getenv("SEMAWI_WGSERVER");
 
 ## The relative URL path to the skins directory
 $wgStylePath = "$wgScriptPath/skins";

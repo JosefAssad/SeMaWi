@@ -18,6 +18,7 @@ services:
       context: dockerfiles/semawi
       dockerfile: Dockerfile
       args:
+        - SEMAWI_WGSERVER=${SEMAWI_WGSERVER}
         - SEMAWI_MW_MINOR_VERSION=${SEMAWI_MW_MINOR_VERSION}
         - SEMAWI_MW_PATCH_VERSION=${SEMAWI_MW_PATCH_VERSION}
         - SMW_VERSION=${SEMAWI_SMW_VERSION}
@@ -27,12 +28,18 @@ services:
     image: semawi/mediawiki:${SEMAWI_VERSION}
     ports:
       - target: 80
-        published: ${SEMAWI_PORT}
+        published: 80
+        protocol: tcp
+        mode: host
+      - target: 443
+        published: 443
         protocol: tcp
         mode: host
     volumes:
       - semawi-images:/var/www/wiki/images/
       - ./${SEMAWI_LOGO}:/var/www/wiki/resources/assets/semawilogo.png
+      - ./privkey.pem:/privkey.pem
+      - ./cert.pem:/cert.pem
       - /srv/semawi/freetds.conf:/etc/freetds/freetds.conf
       - /srv/semawi/odbcinst.ini:/etc/odbcinst.ini
       - /srv/semawi/odbc.ini:/etc/odbc.ini

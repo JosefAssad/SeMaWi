@@ -9,6 +9,13 @@ RUN envsubst "\$SMW_VERSION,\$SRF_VERSION,\$SFS_VERSION" \
 	< /tmp/composer.pre.json \
 	> /tmp/composer.local.json
 
+FROM debian:$DEBIAN_VERSION AS apache-conf-maker
+ARG SEMAWI_WGSERVER
+WORKDIR /tmp
+COPY apache.conf /tmp/apache.conf
+RUN apt-get update && apt-get install -f -y gettext-base
+RUN envsubst "\$SEMAWI_WGSERVER" < /tmp/apache.conf > /tmp/001-semawi.conf
+
 FROM debian:$DEBIAN_VERSION
 ARG SEMAWI_MW_MINOR_VERSION
 ARG SEMAWI_MW_PATCH_VERSION
@@ -29,7 +36,6 @@ RUN apt-get update && \
 # Copy over the configs needed
 COPY semawi.ini /etc/php/7.3/apache2/conf.d/99-semawi.ini
 COPY struktur.xml /tmp/struktur.xml
-ADD 001-semawi.conf /etc/apache2/sites-available/001-semawi.conf
 
 # Copy over the apache wrapper
 COPY scripts/runserver.sh /usr/local/bin/
@@ -56,12 +62,17 @@ env APACHE_LOCK_DIR    /var/lock/apache2
 env APACHE_LOG_DIR     /var/log/apache2
 env LANG               C
 
-EXPOSE 80 5000
+EXPOSE 80 443 5000
 
 # disable 000-default (localhost) & enable 001-semawi (semawi)
 RUN a2dissite 000-default
+COPY --from=apache-conf-maker \
+	/tmp/001-semawi.conf \
+	/etc/apache2/sites-available/001-semawi.conf
 RUN a2ensite 001-semawi
 RUN a2enmod headers
+RUN a2enmod rewrite
+RUN a2enmod ssl
 
 # Install php composer
 WORKDIR /usr/local/bin/

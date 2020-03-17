@@ -1,13 +1,16 @@
 # RUNTIME CONFIGURATION
 # General configuration
-SEMAWI_WGSERVER=http://localhost
+# FQDN, eg localhost for dev of semawi.notanumber.dk for prod
+SEMAWI_WGSERVER=localhost
 SEMAWI_SITENAME=SeMaWi
 SEMAWI_WGUPGRADEKEY=secret-upgrade-key
 SEMAWI_WGSECRETKEY=secret-secret-key
 SEMAWI_MAXFILESIZE=50M
 SEMAWI_LOGO=logo.png
 SEMAWI_PHP_MEM_LIMIT=512M
-SEMAWI_PORT=12345
+# below is dev or prod
+SEMAWI_DEPLOYMENT_ENVIRONMENT=dev
+SEMAWI_ADMIN=josef@josefassad.com
 
 # BUILD-TIME CONFIGURATION
 # Dependency versions
