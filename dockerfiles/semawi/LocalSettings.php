@@ -116,9 +116,9 @@ $wgRightsIcon = "";
 $wgDiff3 = "/usr/bin/diff3";
 
 # The following permissions were set based on your choice in the installer
-$wgGroupPermissions['*']['createaccount'] = true;
-$wgGroupPermissions['*']['edit'] = true;
-$wgGroupPermissions['*']['read'] = true;
+$wgGroupPermissions['*']['createaccount'] = false;
+$wgGroupPermissions['*']['edit'] = false;
+$wgGroupPermissions['*']['read'] = false;
 
 ## Default skin: you can change the default skin. Use the internal symbolic
 ## names, ie 'vector', 'monobook':
@@ -235,3 +235,35 @@ wfLoadExtension( 'ImageMap' );
 require_once('extensions/PlantUML/PlantUML.php');
 
 $wgDefaultUserOptions['usebetatoolbar'] = 1;
+
+# BEGIN Hide sidebar from non-logged in users
+$wgEnableSidebarCache = false;
+
+$wgHooks['SkinBuildSidebar'][] = 'lfHideSidebar';
+/**
+ * Show a different sidebar for anonymous users.
+ * based on https://www.mediawiki.org/wiki/Manual:Interface/Sidebar/Hacks
+ *
+ * $skin Skin object
+ * $bar array Contains the array items, out of which the sidebar will be
+created.
+ * @return true
+ */
+function lfHideSidebar( $skin, &$bar ) {
+  global $wgUser;
+  // Hide sidebar for anonymous users
+  if ( !$wgUser->isLoggedIn() ) {
+    // Shows a special anonymous sidebar.
+    $bar = array(
+      // Returns the message text of that sidebar with only transformation done.
+      // Setting array keys "text"; array keys "href" and "active" stay unset.
+        'text' => "please log in",
+        // 'text' => wfMessage( 'anon_sidebar' )->inContentLanguage()->parse(),
+        // 'text' => wfMessage( 'anon_sidebar' )->inContentLanguage()->text(),
+    );
+  } else {
+    // No changes, just display the sidebar as usual.
+  }
+  return true;
+}
+# END Hide sidebar from non-logged in users
