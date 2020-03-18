@@ -1,3 +1,4 @@
+# ---------------------
 # RUNTIME CONFIGURATION
 # General configuration
 # FQDN, eg localhost for dev of semawi.notanumber.dk for prod
@@ -8,10 +9,17 @@ SEMAWI_WGSECRETKEY=secret-secret-key
 SEMAWI_MAXFILESIZE=50M
 SEMAWI_LOGO=logo.png
 SEMAWI_PHP_MEM_LIMIT=512M
+
 # below is dev or prod
 SEMAWI_DEPLOYMENT_ENVIRONMENT=dev
+
 SEMAWI_ADMIN=josef@josefassad.com
 
+# htpasswd credentials everyone needs to use
+SEMAWI_HTPASS_USER=semawi
+SEMAWI_HTPASS_PASS=sfmhagbae
+
+# ------------------------
 # BUILD-TIME CONFIGURATION
 # Dependency versions
 SEMAWI_VERSION=YYYY.N

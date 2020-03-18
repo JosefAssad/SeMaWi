@@ -18,6 +18,8 @@ services:
       context: dockerfiles/semawi
       dockerfile: Dockerfile
       args:
+        - SEMAWI_HTPASS_USER=${SEMAWI_HTPASS_USER}
+        - SEMAWI_HTPASS_PASS=${SEMAWI_HTPASS_PASS}
         - SEMAWI_WGSERVER=${SEMAWI_WGSERVER}
         - SEMAWI_MW_MINOR_VERSION=${SEMAWI_MW_MINOR_VERSION}
         - SEMAWI_MW_PATCH_VERSION=${SEMAWI_MW_PATCH_VERSION}

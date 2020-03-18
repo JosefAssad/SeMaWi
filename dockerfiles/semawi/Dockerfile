@@ -16,6 +16,12 @@ COPY apache.conf /tmp/apache.conf
 RUN apt-get update && apt-get install -f -y gettext-base
 RUN envsubst "\$SEMAWI_WGSERVER" < /tmp/apache.conf > /tmp/001-semawi.conf
 
+FROM debian:$DEBIAN_VERSION AS htpasswd-maker
+ARG SEMAWI_HTPASS_USER
+ARG SEMAWI_HTPASS_PASS
+RUN apt-get update && apt-get install -f -y apache2-utils
+RUN htpasswd -b -c /tmp/htpasswd $SEMAWI_HTPASS_USER $SEMAWI_HTPASS_PASS
+
 FROM debian:$DEBIAN_VERSION
 ARG SEMAWI_MW_MINOR_VERSION
 ARG SEMAWI_MW_PATCH_VERSION
@@ -69,6 +75,7 @@ RUN a2dissite 000-default
 COPY --from=apache-conf-maker \
 	/tmp/001-semawi.conf \
 	/etc/apache2/sites-available/001-semawi.conf
+COPY --from=htpasswd-maker /tmp/htpasswd /htpasswd
 RUN a2ensite 001-semawi
 RUN a2enmod headers
 RUN a2enmod rewrite
