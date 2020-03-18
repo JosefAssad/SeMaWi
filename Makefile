@@ -13,7 +13,6 @@ down:
 clean:
 	docker-compose down -v
 	yes | docker image prune
-	rm cert.pem privkey.pem
 
 distclean: clean
 	docker rmi semawi/mediawiki:${SEMAWI_VERSION}

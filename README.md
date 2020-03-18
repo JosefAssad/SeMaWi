@@ -31,7 +31,7 @@ If this runs successfully, the last step is to link to the files:
 
 ```bash
 	sudo ln -s /etc/letsencrypt/live/semawi/privkey.pem .
-	sudo ln -s /etc/letsencrypt/live/semawi/fullchain.pem .
+	sudo ln -s /etc/letsencrypt/live/semawi/cert.pem .
 ```
 
 ### Development (self-signed)
