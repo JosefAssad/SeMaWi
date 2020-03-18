@@ -4,7 +4,7 @@ include .env
 build:
 	docker-compose build
 
-up: build certs
+up: build
 	docker-compose up -d
 
 down:
@@ -42,18 +42,8 @@ reload:
 	docker-compose up -d --force-recreate semawi
 
 certs:
-ifeq ($(SEMAWI_DEPLOYMENT_ENVIRONMENT),prod)
-	sudo certbot certonly --standalone -d ${SEMAWI_WGSERVER} --non-interactive \
-	--agree-tos -m ${SEMAWI_ADMIN} --cert-name semawi
-	sudo cp /etc/letsencrypt/live/semawi/privkey.pem .
-	sudo cp /etc/letsencrypt/live/semawi/fullchain.pem .
-	sudo sh -c 'chmod $SUDO_UID:$SUDO_GID privkey.pem'
-	sudo sh -c 'chmod $SUDO_UID:$SUDO_GID fullchain.pem'
-else
 	openssl req -x509 -newkey rsa:4096 -sha256 -days 3650 -nodes \
 		-keyout privkey.pem \
 		-out cert.pem \
 		-subj /CN=${SEMAWI_WGSERVER} \
 		-addext subjectAltName=DNS:${SEMAWI_WGSERVER}
-
-endif

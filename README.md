@@ -10,6 +10,36 @@ SeMaWi requires the following:
 1. A Linux host (ideally, Debian)
 2. Docker
 3. Docker Compose
+4. SSL/TLS certificates
+
+## Preparing the SSL/TLS certificates
+
+### Production (letsencrypt)
+
+The docker host requires `certbot` installed. In the recommended Debian Buster
+docker host environment, the command is `sudo apt install certbot`.
+
+Then we must generate standalone certificates:
+
+```bash
+	sudo certbot certonly --standalone -d semawi.notanumber.dk \
+		--non-interactive --agree-tos -m test@example.com \
+		--cert-name semawi
+```
+
+If this runs successfully, the last step is to link to the files:
+
+```bash
+	sudo ln -s /etc/letsencrypt/live/semawi/privkey.pem .
+	sudo ln -s /etc/letsencrypt/live/semawi/fullchain.pem .
+```
+
+### Development (self-signed)
+
+For development purposes, the provided Makefile has a target `certs` which will
+create the required self-signed certificate files in the correct location.
+
+## Deployment
 
 It ships with a `Makefile` which has some convenient targets. To deploy SeMaWi:
 
