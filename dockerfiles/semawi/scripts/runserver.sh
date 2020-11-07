@@ -37,4 +37,11 @@ cp /tmp/LocalSettings.php /var/www/wiki/LocalSettings.php
 # Apache gets grumpy about PID files pre-existing
 rm -f /var/run/apache2.pid
 
+# choose which apache conf to activate depending on if we want basic auth or not
+if [ "$SEMAWI_USE_HTPASS" = "YES" ]; then
+	a2ensite 001-semawi-htpass
+else
+	a2ensite 001-semawi
+fi
+
 exec apache2 -DFOREGROUND

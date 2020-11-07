@@ -13,8 +13,10 @@ FROM debian:$DEBIAN_VERSION AS apache-conf-maker
 ARG SEMAWI_WGSERVER
 WORKDIR /tmp
 COPY apache.conf /tmp/apache.conf
+COPY apache-htpass.conf /tmp/apache-htpass.conf
 RUN apt-get update && apt-get install -f -y gettext-base
 RUN envsubst "\$SEMAWI_WGSERVER" < /tmp/apache.conf > /tmp/001-semawi.conf
+RUN envsubst "\$SEMAWI_WGSERVER" < /tmp/apache-htpass.conf > /tmp/001-semawi-htpass.conf
 
 FROM debian:$DEBIAN_VERSION AS htpasswd-maker
 ARG SEMAWI_HTPASS_USER
@@ -75,8 +77,10 @@ RUN a2dissite 000-default
 COPY --from=apache-conf-maker \
 	/tmp/001-semawi.conf \
 	/etc/apache2/sites-available/001-semawi.conf
+COPY --from=apache-conf-maker \
+	/tmp/001-semawi-htpass.conf \
+	/etc/apache2/sites-available/001-semawi-htpass.conf
 COPY --from=htpasswd-maker /tmp/htpasswd /htpasswd
-RUN a2ensite 001-semawi
 RUN a2enmod headers
 RUN a2enmod rewrite
 RUN a2enmod ssl

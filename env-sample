@@ -17,6 +17,7 @@ SEMAWI_DEPLOYMENT_ENVIRONMENT=dev
 SEMAWI_ADMIN=josef@josefassad.com
 
 # htpasswd credentials everyone needs to use
+SEMAWI_USE_HTPASS=YES
 SEMAWI_HTPASS_USER=semawi
 SEMAWI_HTPASS_PASS=sfmhagbae
 
