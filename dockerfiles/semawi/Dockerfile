@@ -83,8 +83,8 @@ RUN a2enmod ssl
 
 # Install php composer
 WORKDIR /usr/local/bin/
-RUN curl -sS https://getcomposer.org/installer | php
-RUN mv composer.phar composer
+RUN curl -sS https://getcomposer.org/download/1.10.17/composer.phar > /usr/local/bin/composer && \
+	chmod +x /usr/local/bin/composer
 
 WORKDIR /var/www/wiki/
 
