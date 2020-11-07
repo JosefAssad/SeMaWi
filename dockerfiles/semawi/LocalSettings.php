@@ -115,10 +115,20 @@ $wgRightsIcon = "";
 # Path to the GNU diff3 utility. Used for conflict resolution.
 $wgDiff3 = "/usr/bin/diff3";
 
-# The following permissions were set based on your choice in the installer
-$wgGroupPermissions['*']['createaccount'] = false;
-$wgGroupPermissions['*']['edit'] = false;
-$wgGroupPermissions['*']['read'] = false;
+# SeMaWi can operate as a walled garden; it does so by default.
+# In walled garden mode, a pre-existing user must create user accounts and users must be
+# logged in to see and edit pages.
+# This option is managed by setting WALLED_GARDEN to YES or NO in .env
+if ( getenv("SEMAWI_WALLED_GARDEN") != "NO" ) {
+    $wgGroupPermissions['*']['createaccount'] = false;
+    $wgGroupPermissions['*']['read'] = false;
+    $wgGroupPermissions['*']['edit'] = false;
+
+} else {
+    $wgGroupPermissions['*']['createaccount'] = true;
+    $wgGroupPermissions['*']['read'] = true;
+    $wgGroupPermissions['*']['edit'] = true;
+}
 
 ## Default skin: you can change the default skin. Use the internal symbolic
 ## names, ie 'vector', 'monobook':
@@ -250,20 +260,19 @@ created.
  * @return true
  */
 function lfHideSidebar( $skin, &$bar ) {
-  global $wgUser;
-  // Hide sidebar for anonymous users
-  if ( !$wgUser->isLoggedIn() ) {
-    // Shows a special anonymous sidebar.
-    $bar = array(
-      // Returns the message text of that sidebar with only transformation done.
-      // Setting array keys "text"; array keys "href" and "active" stay unset.
-        'text' => "please log in",
-        // 'text' => wfMessage( 'anon_sidebar' )->inContentLanguage()->parse(),
-        // 'text' => wfMessage( 'anon_sidebar' )->inContentLanguage()->text(),
-    );
-  } else {
-    // No changes, just display the sidebar as usual.
-  }
-  return true;
+    // if walled garden, hide sidebar from anonymous users
+    if ( getenv("SEMAWI_WALLED_GARDEN") != "NO" ) {
+        global $wgUser;
+        // Hide sidebar for anonymous users
+        if ( !$wgUser->isLoggedIn() ) {
+            // Shows a special anonymous sidebar.
+            $bar = array(
+                'text' => "please log in",
+            );
+        } else {
+            // No changes, just display the sidebar as usual.
+        }
+    }
+    return true;
 }
 # END Hide sidebar from non-logged in users
