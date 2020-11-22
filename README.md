@@ -64,6 +64,15 @@ running SeMaWi instance:
 2. Issue `make reload`
 3. Issue `make update`
 
+# Updating LetsEncrypt certificates
+
+1. Stop the `semawi-mediawiki` container *only*.
+2. Issue a `sudo certbot renew` command on the CLI
+3. Ascertain that the files in the root of the SeMaWi source directory
+   `cert.pem` and `privkey.pem` point to the right things in the LE config dir
+4. Issue a `docker start semawi-mediawiki` which will bring the container back
+   up again, with the new certs.
+
 # Upgrading from a previous SeMaWi version
 
 The First Rule of Upgrade Club is, do NOT kill your old instance before you are
